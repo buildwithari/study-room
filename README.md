@@ -1,44 +1,62 @@
 # Ari's Study Room 📚
 
-A cozy, minimalistic study blog for Computer Science degree notes and Meta interview preparation. Built with Next.js and designed with warm, inviting aesthetics.
+A cozy, minimalistic study blog for Computer Science notes and technical interview preparation. Built with Next.js 15, featuring a custom CMS with a block-based editor for creating and managing content through a beautiful admin interface.
 
-![Ari's Study Room](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0-38B2AC?style=for-the-badge&logo=tailwind-css)
+![MongoDB](https://img.shields.io/badge/MongoDB-6.0-green?style=for-the-badge&logo=mongodb)
+![Prisma](https://img.shields.io/badge/Prisma-5.0-2D3748?style=for-the-badge&logo=prisma)
 
 ## ✨ Features
 
 ### 🎨 Design & Aesthetic
 - **Lavender-pink pastels** with soft, cozy vibes
-- **Clean typography** using Inter font (similar to Redis documentation)
+- **Clean typography** using Inter font
 - **Rounded corners** and subtle shadows for warm, inviting feel
+- **Responsive design** for mobile and desktop
 - **Cozy study space** aesthetic (not corporate or sterile)
 
-### 📚 Content Organization
-- **Categorized notes** with 6 main categories and 24+ subcategories
-- **Breadcrumb navigation** for easy navigation
-- **Search functionality** across all notes
-- **Responsive design** for mobile and desktop
+### 📝 Content Management System (CMS)
+- **Block-based editor** similar to Notion/Medium
+- **9 content block types**:
+  - Problem Statement - for coding challenges
+  - Examples - input/output examples with explanations
+  - Math/Approach - LaTeX equations and algorithm explanations
+  - Code Block - syntax-highlighted code with language selection
+  - Complexity Analysis - time and space complexity
+  - Walkthrough - step-by-step explanations with optional code
+  - Related Problems - links to similar problems
+  - Tips List - tips, warnings, or notes with variants
+  - Rich Text - general HTML content sections
+- **Live preview** while editing
+- **Draft/Published** status for articles
+- **Article metadata** - difficulty, time/space complexity, approach
 
-### 💻 Technical Features
-- **Code syntax highlighting** optimized for Java
-- **LaTeX/MathJax support** for mathematical equations
-- **Image lightbox** with zoom and rotation controls
-- **Reusable components** for consistent content presentation
+### 🗂️ Category Management
+- **Dynamic categories** - create, edit, delete from admin UI
+- **Nested subcategories** - organize content hierarchically
+- **Customizable appearance** - icons, colors with preset themes
+- **Color shuffle** - randomize colors with one click
+- **Article counts** - see how many articles in each category
 
-### 🗂️ Content Categories
-1. **Algorithms & Data Structures** - Core algorithmic concepts
-2. **System Design** - Scalable architecture patterns
-3. **Databases** - SQL, NoSQL, and optimization
-4. **Computer Science** - OS, networks, distributed systems
-5. **Meta Interview Prep** - Behavioral, coding, system design
-6. **Quick Notes** - Java tips, Git commands, Linux commands
+### 🔐 Authentication
+- **Secure admin access** with NextAuth.js
+- **Protected routes** - admin dashboard requires login
+- **Session management** with JWT
+
+### 📚 Content Display
+- **Dynamic routing** - categories and articles from database
+- **Breadcrumb navigation** - auto-generated from hierarchy
+- **Coming Soon state** - for empty categories
+- **SEO metadata** - dynamic titles and descriptions
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
+- MongoDB Atlas account (free tier works great)
 
 ### Installation
 
@@ -53,46 +71,102 @@ A cozy, minimalistic study blog for Computer Science degree notes and Meta inter
    npm install
    ```
 
-3. **Run the development server**
+3. **Set up environment variables**
+
+   Copy `.env.example` to `.env` and fill in your values:
+   ```bash
+   cp .env.example .env
+   ```
+
+   Required variables:
+   ```env
+   # MongoDB connection string (from MongoDB Atlas)
+   DATABASE_URL="mongodb+srv://username:password@cluster.mongodb.net/studyroom"
+
+   # NextAuth.js secret (generate with: openssl rand -base64 32)
+   NEXTAUTH_SECRET="your-secret-key"
+   NEXTAUTH_URL="http://localhost:3000"
+
+   # Admin credentials for initial setup
+   ADMIN_EMAIL="your-email@example.com"
+   ADMIN_PASSWORD="your-secure-password"
+   ```
+
+4. **Set up the database**
+   ```bash
+   # Push schema to MongoDB
+   npx prisma db push
+
+   # Generate Prisma client
+   npx prisma generate
+
+   # Seed initial categories
+   npm run seed
+   ```
+
+5. **Create admin user**
+   ```bash
+   npm run create-admin
+   ```
+
+6. **Run the development server**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+7. **Open your browser**
+   - Site: [http://localhost:3000](http://localhost:3000)
+   - Admin: [http://localhost:3000/admin](http://localhost:3000/admin)
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14 with App Router
+- **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
+- **Database**: MongoDB with Prisma ORM
+- **Authentication**: NextAuth.js v4
 - **Styling**: Tailwind CSS with custom color palette
 - **Icons**: Lucide React
 - **Code Highlighting**: React Syntax Highlighter
 - **Math Rendering**: KaTeX
-- **Font**: Inter (Google Fonts)
 
 ## 📁 Project Structure
 
 ```
 study-room/
 ├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── algorithms/         # Algorithm notes
-│   │   ├── system-design/      # System design notes
-│   │   ├── databases/          # Database notes
-│   │   ├── computer-science/   # CS theory notes
-│   │   ├── meta-interview/     # Interview prep
-│   │   └── quick-notes/        # Quick reference notes
-│   ├── components/             # Reusable components
-│   │   ├── Header.tsx         # Site header with search
-│   │   ├── Navigation.tsx     # Sidebar navigation
-│   │   ├── Breadcrumb.tsx     # Breadcrumb navigation
-│   │   ├── CodeBlock.tsx      # Syntax highlighted code
-│   │   ├── MathBlock.tsx      # LaTeX equation renderer
-│   │   └── Lightbox.tsx       # Image zoom modal
-│   └── styles/                # Global styles
-├── public/                    # Static assets
-└── package.json              # Dependencies and scripts
+│   ├── app/
+│   │   ├── [...slug]/          # Dynamic route (categories + articles)
+│   │   ├── admin/              # Admin dashboard
+│   │   │   ├── articles/       # Article management
+│   │   │   ├── categories/     # Category management
+│   │   │   └── login/          # Admin login
+│   │   ├── api/                # API routes
+│   │   │   ├── articles/       # Article CRUD
+│   │   │   ├── categories/     # Category CRUD
+│   │   │   └── auth/           # NextAuth endpoints
+│   │   ├── page.tsx            # Home page
+│   │   └── layout.tsx          # Root layout
+│   ├── components/
+│   │   ├── admin/              # Admin UI components
+│   │   │   ├── ArticleForm.tsx
+│   │   │   ├── BlockEditor.tsx
+│   │   │   ├── CategoryForm.tsx
+│   │   │   └── block-editors/  # Individual block editors
+│   │   ├── blocks/             # Block renderers for display
+│   │   ├── Breadcrumb.tsx
+│   │   ├── Header.tsx
+│   │   └── Footer.tsx
+│   ├── lib/
+│   │   ├── prisma.ts           # Prisma client singleton
+│   │   └── auth.ts             # NextAuth configuration
+│   └── types/
+│       └── blocks.ts           # Block type definitions
+├── prisma/
+│   ├── schema.prisma           # Database schema
+│   └── seed.ts                 # Category seeding script
+├── scripts/
+│   └── create-admin.ts         # Admin user creation
+└── package.json
 ```
 
 ## 🎨 Customization
@@ -120,79 +194,67 @@ colors: {
 }
 ```
 
-### Adding New Content
+### Adding Content
 
-1. **Create a new note page** in the appropriate category directory
-2. **Use the provided components** for consistent styling:
-   - `<CodeBlock>` for Java code with syntax highlighting
-   - `<MathBlock>` for mathematical equations
-   - `<Lightbox>` for images with zoom functionality
-   - `<Breadcrumb>` for navigation
+1. **Login to admin** at `/admin`
+2. **Create categories** - Go to Categories → New Category
+3. **Create articles** - Go to Dashboard → New Article
+4. **Add blocks** - Use the block editor to add content sections
+5. **Publish** - Set status to "Published" when ready
 
-3. **Update navigation** in `src/components/Navigation.tsx`
+### Block Types
 
-### Example Note Structure
-```typescript
-import Breadcrumb from '@/components/Breadcrumb';
-import CodeBlock from '@/components/CodeBlock';
-import MathBlock from '@/components/MathBlock';
+| Block Type | Use Case |
+|------------|----------|
+| Problem Statement | Coding challenge descriptions |
+| Examples | Input/output examples |
+| Math/Approach | Equations and algorithm theory |
+| Code Block | Syntax-highlighted code |
+| Complexity Analysis | Big O notation |
+| Walkthrough | Step-by-step explanations |
+| Related Problems | Links to similar content |
+| Tips List | Tips, warnings, notes |
+| Rich Text | General HTML content |
 
-export default function MyNotePage() {
-  return (
-    <div className="max-w-4xl mx-auto">
-      <Breadcrumb items={[...]} />
-      
-      {/* Content sections */}
-      <section className="mb-8">
-        <h2>Problem Statement</h2>
-        {/* Content */}
-      </section>
-      
-      <CodeBlock language="java">
-        {/* Java code */}
-      </CodeBlock>
-      
-      <MathBlock display={true}>
-        {/* LaTeX equation */}
-      </MathBlock>
-    </div>
-  );
-}
-```
+## 🚢 Deployment
 
-## 📝 Content Guidelines
+### Vercel (Recommended)
 
-### Writing Notes
-- Use clear, concise language
-- Include code examples in Java
-- Add mathematical equations where relevant
-- Provide complexity analysis
-- Include practice tips and related problems
+1. Push your code to GitHub
+2. Import project on [Vercel](https://vercel.com)
+3. Add environment variables:
+   - `DATABASE_URL`
+   - `NEXTAUTH_SECRET`
+   - `NEXTAUTH_URL` (your production URL)
+4. Deploy!
 
-### Code Examples
-- Use the `<CodeBlock>` component with `language="java"`
-- Include file names and titles for context
-- Add comments explaining the approach
-- Show multiple solutions when applicable
+### MongoDB Atlas Setup
 
-### Mathematical Content
-- Use `<MathBlock>` for inline and display equations
-- Write clear LaTeX syntax
-- Provide context for mathematical concepts
+1. Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/atlas)
+2. Create a database user
+3. Add `0.0.0.0/0` to Network Access (or Vercel's IPs)
+4. Get your connection string and add to `DATABASE_URL`
 
-## 🔧 Development
+## 🔧 Available Scripts
 
-### Available Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
+| `npm run seed` | Seed initial categories |
+| `npm run create-admin` | Create admin user |
 
-### Code Style
-- Follow TypeScript best practices
-- Use functional components with hooks
-- Maintain consistent component structure
-- Follow the established color scheme
+## 📝 Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DATABASE_URL` | MongoDB connection string | Yes |
+| `NEXTAUTH_SECRET` | Secret for JWT signing | Yes |
+| `NEXTAUTH_URL` | Base URL of your app | Yes |
+| `ADMIN_EMAIL` | Email for admin user | For setup |
+| `ADMIN_PASSWORD` | Password for admin user | For setup |
 
 ## 🤝 Contributing
 
@@ -208,7 +270,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👩‍💻 About
 
-**Ari's Study Room** is a personal study blog created by Arundhati for organizing Computer Science notes and Meta interview preparation materials. The goal is to create a warm, inviting space that makes studying feel cozy rather than corporate or sterile.
+**Ari's Study Room** is a personal study blog created by Arundhati for organizing Computer Science notes and technical interview preparation materials. The goal is to create a warm, inviting space that makes studying feel cozy rather than corporate.
 
 ---
 

@@ -23,7 +23,7 @@ export default function Header() {
             </div>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-warmGray-800 via-lavender-600 to-pink-500 bg-clip-text text-transparent group-hover:from-lavender-600 group-hover:via-pink-500 group-hover:to-orange-400 transition-all duration-500 group-hover:scale-105">
-                Ari's Study Room
+                Ari&apos;s Study Room
               </h1>
               <p className="text-sm text-warmGray-500 font-semibold tracking-wide group-hover:text-lavender-600 transition-colors group-hover:scale-105">
                 CS Notes & Interview Prep

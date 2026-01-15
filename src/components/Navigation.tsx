@@ -3,17 +3,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  ChevronDown, 
-  ChevronRight, 
-  Code, 
-  Database, 
-  Network, 
-  Brain, 
-  Users, 
+import {
+  ChevronDown,
+  ChevronRight,
+  Code,
+  Database,
+  Network,
+  Brain,
+  Users,
   BookOpen,
-  FileText,
-  Zap
+  FileText
 } from 'lucide-react';
 
 interface Category {

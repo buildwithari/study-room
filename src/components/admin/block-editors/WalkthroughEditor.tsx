@@ -1,7 +1,7 @@
 'use client';
 
 import { Plus, Trash2 } from 'lucide-react';
-import { WalkthroughBlock, WalkthroughStep } from '@/types/blocks';
+import { WalkthroughBlock } from '@/types/blocks';
 
 interface Props {
   block: WalkthroughBlock;
