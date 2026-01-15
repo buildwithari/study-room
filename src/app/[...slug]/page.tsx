@@ -13,7 +13,8 @@ interface PageProps {
 
 // Get icon component by name
 function getIconComponent(iconName: string): LucideIcon {
-  const icons = LucideIcons as Record<string, LucideIcon>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const icons = LucideIcons as any;
   return icons[iconName] || LucideIcons.FileText;
 }
 
@@ -327,8 +328,10 @@ export default async function DynamicPage({ params }: PageProps) {
   const gradientFrom = `from-${iconColorClass.replace('-600', '-400')}`;
   const gradientTo = `to-${iconColorClass.replace('-600', '-500')}`;
 
-  // Parse blocks from JSON
-  const blocks = (article.blocks as Block[]) || [];
+  // Parse blocks from JSON - properly type cast the Prisma JsonValue
+  const blocks: Block[] = Array.isArray(article.blocks) 
+    ? article.blocks as unknown as Block[]
+    : [];
 
   return (
     <div className="max-w-4xl mx-auto p-6 lg:p-8">
