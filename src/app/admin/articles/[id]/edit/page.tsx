@@ -49,7 +49,7 @@ export default async function EditArticlePage({ params }: PageProps) {
     timeComplexity: article.timeComplexity,
     spaceComplexity: article.spaceComplexity,
     approach: article.approach,
-    blocks: (article.blocks as Block[]) || [],
+    blocks: Array.isArray(article.blocks) ? (article.blocks as unknown as Block[]) : [],
     status: article.status,
   };
 
