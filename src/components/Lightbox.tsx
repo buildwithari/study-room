@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { X, ZoomIn, ZoomOut, RotateCw } from 'lucide-react';
 
 interface LightboxProps {
@@ -27,10 +28,12 @@ export default function Lightbox({ src, alt, caption, className = '' }: Lightbox
     <>
       {/* Thumbnail */}
       <div className={`inline-block cursor-pointer group ${className}`} onClick={() => setIsOpen(true)}>
-        <div className="relative overflow-hidden rounded-xl border border-lavender-200">
-          <img
+        <div className="relative overflow-hidden rounded-xl border border-lavender-200 w-full h-auto">
+          <Image
             src={src}
             alt={alt}
+            width={800}
+            height={600}
             className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
@@ -84,13 +87,16 @@ export default function Lightbox({ src, alt, caption, className = '' }: Lightbox
 
             {/* Image */}
             <div className="relative max-w-full max-h-full overflow-auto">
-              <img
+              <Image
                 src={src}
                 alt={alt}
+                width={1920}
+                height={1080}
                 className="max-w-none transition-transform duration-300"
                 style={{
                   transform: `scale(${scale}) rotate(${rotation}deg)`,
                 }}
+                unoptimized
               />
             </div>
 

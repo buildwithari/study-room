@@ -86,7 +86,7 @@ export default async function Home() {
                 Welcome to My Study! 📚
               </h2>
               <p className="text-lg sm:text-xl lg:text-xl text-gray-700 leading-relaxed mb-8 lg:mb-12">
-                Hi viewer, I'm Ari and welcome to my study room! Here you'll find notes from my technical interview preparation journey and tips and tricks that I discovered along the way. Feel free to grab a cozy cup of coffee and have a look around. Happy studying! ☕️🍀
+                Hi viewer, I&apos;m Ari and welcome to my study room! Here you&apos;ll find notes from my technical interview preparation journey and tips and tricks that I discovered along the way. Feel free to grab a cozy cup of coffee and have a look around. Happy studying! ☕️🍀
               </p>
 
               {/* Floating Cozy Elements */}
@@ -123,7 +123,7 @@ export default async function Home() {
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-warmGray-800 via-lavender-600 to-pink-500 bg-clip-text text-transparent mb-2 lg:mb-4">
-                Ari's Study Room
+                Ari&apos;s Study Room
               </h1>
               <p className="text-lg sm:text-xl text-warmGray-600 font-medium">
                 CS Notes & Interview Prep

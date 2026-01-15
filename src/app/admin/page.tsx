@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { Plus, FileText, Clock, CheckCircle, Edit, Trash2, FolderTree } from 'lucide-react';
+import { Plus, FileText, Clock, CheckCircle, Edit, FolderTree } from 'lucide-react';
 import DeleteArticleButton from '@/components/admin/DeleteArticleButton';
 
 async function getArticles() {
