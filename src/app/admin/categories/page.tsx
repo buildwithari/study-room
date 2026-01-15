@@ -6,7 +6,7 @@ import { LucideIcon } from 'lucide-react';
 import DeleteCategoryButton from '@/components/admin/DeleteCategoryButton';
 
 function getIconComponent(iconName: string): LucideIcon {
-  const icons = LucideIcons as Record<string, LucideIcon>;
+  const icons = LucideIcons as unknown as Record<string, LucideIcon>;
   return icons[iconName] || LucideIcons.FileText;
 }
 
