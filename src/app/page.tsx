@@ -11,91 +11,60 @@ import {
   BookOpen,
   ChevronDown
 } from 'lucide-react';
+import { prisma } from '@/lib/prisma';
 
-const categories = [
-  {
-    name: 'Data Structures',
-    articles: '0 articles',
-    description: 'Fundamental data structures and their implementations',
-    path: '/data-structures',
-    color: 'bg-blue-50',
-    textColor: 'text-blue-700',
-    iconColor: 'text-blue-600',
-    icon: <Database className="w-6 h-6" />
-  },
-  {
-    name: 'Algorithms',
-    articles: '1 article',
-    description: 'Algorithmic concepts and problem-solving techniques',
-    path: '/algorithms',
-    color: 'bg-green-50',
-    textColor: 'text-green-700',
-    iconColor: 'text-green-600',
-    icon: <Code className="w-6 h-6" />
-  },
-  {
-    name: 'Problems',
-    articles: '0 articles',
-    description: 'Practice problems and coding challenges',
-    path: '/problems',
-    color: 'bg-purple-50',
-    textColor: 'text-purple-700',
-    iconColor: 'text-purple-600',
-    icon: <Target className="w-6 h-6" />
-  },
-  {
-    name: 'System Design',
-    articles: '0 articles',
-    description: 'Scalable architecture and design patterns',
-    path: '/system-design',
-    color: 'bg-teal-50',
-    textColor: 'text-teal-700',
-    iconColor: 'text-teal-600',
-    icon: <Network className="w-6 h-6" />
-  },
-  {
-    name: 'Databases',
-    articles: '0 articles',
-    description: 'SQL, NoSQL and optimization techniques',
-    path: '/databases',
-    color: 'bg-indigo-50',
-    textColor: 'text-indigo-700',
-    iconColor: 'text-indigo-600',
-    icon: <Database className="w-6 h-6" />
-  },
-  {
-    name: 'Computer Science',
-    articles: '0 articles',
-    description: 'Operating systems and distributed systems',
-    path: '/computer-science',
-    color: 'bg-pink-50',
-    textColor: 'text-pink-700',
-    iconColor: 'text-pink-600',
-    icon: <Brain className="w-6 h-6" />
-  },
-  {
-    name: 'Behavioral Preparation',
-    articles: '0 articles',
-    description: 'Behavioral questions and interview preparation',
-    path: '/behavioral-preparation',
-    color: 'bg-orange-50',
-    textColor: 'text-orange-700',
-    iconColor: 'text-orange-600',
-    icon: <Users className="w-6 h-6" />
-  },
-  {
-    name: 'Quick Notes',
-    articles: '0 articles',
-    description: 'Java tips, Git commands and references',
-    path: '/quick-notes',
-    color: 'bg-yellow-50',
-    textColor: 'text-yellow-700',
-    iconColor: 'text-yellow-600',
-    icon: <FileText className="w-6 h-6" />
-  }
-];
+// Map icon names to components
+const iconMap: Record<string, React.ReactNode> = {
+  Code: <Code className="w-6 h-6" />,
+  Database: <Database className="w-6 h-6" />,
+  Network: <Network className="w-6 h-6" />,
+  Brain: <Brain className="w-6 h-6" />,
+  Users: <Users className="w-6 h-6" />,
+  FileText: <FileText className="w-6 h-6" />,
+  Target: <Target className="w-6 h-6" />,
+};
 
-export default function Home() {
+async function getCategories() {
+  // Fetch all categories and filter in JS (workaround for MongoDB/Prisma null query issue)
+  const allCategories = await prisma.category.findMany({
+    orderBy: { order: 'asc' },
+  });
+
+  // Filter parent categories (those without parentId)
+  const parentCategories = allCategories.filter((c) => !c.parentId);
+
+  // Fetch article counts separately
+  const articleCounts = await prisma.article.groupBy({
+    by: ['categoryId'],
+    _count: { id: true },
+    where: { status: 'published' },
+  });
+
+  const countMap = new Map(
+    articleCounts.map((c) => [c.categoryId, c._count.id])
+  );
+
+  return parentCategories.map((category) => {
+    // Get direct article count
+    let articleCount = countMap.get(category.id) || 0;
+
+    // Add article counts from all subcategories
+    const subcategories = allCategories.filter((c) => c.parentId === category.id);
+    for (const sub of subcategories) {
+      articleCount += countMap.get(sub.id) || 0;
+    }
+
+    return {
+      ...category,
+      totalArticles: articleCount,
+      articlesText: articleCount === 1 ? '1 article' : `${articleCount} articles`,
+    };
+  });
+}
+
+export default async function Home() {
+  const categories = await getCategories();
+
   return (
     <div className="min-h-screen bg-white">
       {/* Landing Banner */}
@@ -108,7 +77,7 @@ export default function Home() {
           <div className="absolute bottom-1/4 left-1/4 w-36 h-36 bg-gradient-to-br from-orange-200 to-yellow-200 rounded-full opacity-25 blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
           <div className="absolute bottom-10 right-10 w-28 h-28 bg-gradient-to-br from-purple-200 to-blue-200 rounded-full opacity-30 blur-xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between py-8 lg:py-0">
           {/* Content Section - Left Side */}
           <div className="flex-1 lg:pr-12 mb-8 lg:mb-0 text-center lg:text-left">
@@ -119,7 +88,7 @@ export default function Home() {
               <p className="text-lg sm:text-xl lg:text-xl text-gray-700 leading-relaxed mb-8 lg:mb-12">
                 Hi viewer, I'm Ari and welcome to my study room! Here you'll find notes from my technical interview preparation journey and tips and tricks that I discovered along the way. Feel free to grab a cozy cup of coffee and have a look around. Happy studying! ☕️🍀
               </p>
-              
+
               {/* Floating Cozy Elements */}
               <div className="flex items-center justify-center lg:justify-start space-x-4 sm:space-x-6 lg:space-x-8 text-2xl sm:text-3xl lg:text-4xl">
                 <span className="hover:scale-125 transition-transform duration-300 animate-bounce" style={{ animationDelay: '0s', animationDuration: '2s' }}>📚</span>
@@ -152,7 +121,7 @@ export default function Home() {
                   <span className="text-xs font-bold text-white">🎨</span>
                 </div>
               </div>
-              
+
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-warmGray-800 via-lavender-600 to-pink-500 bg-clip-text text-transparent mb-2 lg:mb-4">
                 Ari's Study Room
               </h1>
@@ -162,7 +131,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
         {/* Scroll Indicator */}
         <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
           <div className="flex flex-col items-center space-y-1 sm:space-y-2">
@@ -185,27 +154,27 @@ export default function Home() {
             Choose from our comprehensive collection of study materials organized by topic
           </p>
         </div>
-        
+
         {/* Bento Box Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {categories.map((category) => (
-            <Link 
-              key={category.name}
-              href={category.path}
-              className={`group block ${category.color} p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100`}
+            <Link
+              key={category.id}
+              href={`/${category.slug}`}
+              className={`group block ${category.bgColor} p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100`}
             >
               <div className="flex items-start justify-between h-full">
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-                    <div className={`${category.iconColor}`}>
-                      {category.icon}
+                    <div className={category.iconColor}>
+                      {iconMap[category.icon] || <FileText className="w-6 h-6" />}
                     </div>
                     <div>
                       <h3 className={`font-semibold text-base sm:text-lg ${category.textColor}`}>
                         {category.name}
                       </h3>
                       <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                        {category.articles}
+                        {category.articlesText}
                       </p>
                     </div>
                   </div>
