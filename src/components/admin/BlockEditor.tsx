@@ -55,6 +55,46 @@ export default function BlockEditor({ blocks, onChange }: BlockEditorProps) {
   const [showAddMenu, setShowAddMenu] = useState(false);
   const [editingBlock, setEditingBlock] = useState<Block | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index.toString());
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverIndex(index);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverIndex(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    const newBlocks = [...blocks];
+    const [draggedBlock] = newBlocks.splice(draggedIndex, 1);
+    newBlocks.splice(dropIndex, 0, draggedBlock);
+    onChange(newBlocks);
+
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
 
   const addBlock = (type: BlockType) => {
     const newBlock = createEmptyBlock(type);
@@ -132,9 +172,21 @@ export default function BlockEditor({ blocks, onChange }: BlockEditorProps) {
           {blocks.map((block, index) => (
             <div
               key={block.id}
-              className="flex items-center space-x-2 p-3 bg-lavender-50 rounded-xl border border-lavender-200 group"
+              draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragOver={(e) => handleDragOver(e, index)}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => handleDrop(e, index)}
+              onDragEnd={handleDragEnd}
+              className={`flex items-center space-x-2 p-3 bg-lavender-50 rounded-xl border border-lavender-200 group transition-all ${
+                draggedIndex === index ? 'opacity-50 scale-95' : ''
+              } ${
+                dragOverIndex === index && draggedIndex !== index
+                  ? 'border-lavender-500 border-2 bg-lavender-100'
+                  : ''
+              }`}
             >
-              <GripVertical className="w-4 h-4 text-warmGray-400 cursor-move" />
+              <GripVertical className="w-4 h-4 text-warmGray-400 cursor-grab active:cursor-grabbing" />
               <div
                 className="flex-1 cursor-pointer hover:text-lavender-600"
                 onClick={() => editBlock(block, index)}
