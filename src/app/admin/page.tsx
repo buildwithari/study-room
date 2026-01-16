@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { Plus, FileText, Clock, CheckCircle, Edit, FolderTree } from 'lucide-react';
 import DeleteArticleButton from '@/components/admin/DeleteArticleButton';
+import LogoutButton from '@/components/admin/LogoutButton';
 
 async function getArticles() {
   const articles = await prisma.article.findMany({
@@ -50,6 +51,7 @@ export default async function AdminDashboard() {
               <Plus className="w-5 h-5" />
               <span>New Article</span>
             </Link>
+            <LogoutButton />
           </div>
         </div>
 

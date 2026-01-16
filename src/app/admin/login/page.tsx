@@ -26,9 +26,11 @@ export default function LoginPage() {
 
       if (result?.error) {
         setError(result.error);
-      } else {
+      } else if (result?.ok) {
         router.push('/admin');
         router.refresh();
+      } else {
+        setError('Login failed. Please try again.');
       }
     } catch {
       setError('Something went wrong. Please try again.');

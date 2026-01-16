@@ -9,7 +9,7 @@ import {
   ChevronRight,
   Target,
   BookOpen,
-  ChevronDown
+  ChevronDown,
 } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 
@@ -68,76 +68,101 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Landing Banner */}
-      <div className="h-[90vh] bg-gradient-to-br from-pink-50 via-lavender-50 to-orange-50 relative overflow-hidden">
+      <div className="min-h-[85vh] bg-gradient-to-br from-lavender-50 via-white to-pink-50 relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Large soft circles */}
+          <div className="absolute -top-20 -right-20 w-80 h-80 bg-lavender-100 rounded-full opacity-50"></div>
+          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-pink-100 rounded-full opacity-40"></div>
+          <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-lavender-100 rounded-full opacity-30"></div>
 
-        {/* Decorative Blobs */}
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full opacity-30 blur-xl animate-pulse"></div>
-          <div className="absolute top-1/4 right-1/4 w-40 h-40 bg-gradient-to-br from-lavender-200 to-pink-200 rounded-full opacity-20 blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-1/4 left-1/4 w-36 h-36 bg-gradient-to-br from-orange-200 to-yellow-200 rounded-full opacity-25 blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-10 right-10 w-28 h-28 bg-gradient-to-br from-purple-200 to-blue-200 rounded-full opacity-30 blur-xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: `linear-gradient(rgba(139, 92, 246, 0.5) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(139, 92, 246, 0.5) 1px, transparent 1px)`,
+            backgroundSize: '40px 40px'
+          }}></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between py-8 lg:py-0">
-          {/* Content Section - Left Side */}
-          <div className="flex-1 lg:pr-12 mb-8 lg:mb-0 text-center lg:text-left">
-            <div className="max-w-2xl mx-auto lg:mx-0">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 lg:mb-8">
-                Welcome to My Study! 📚
-              </h2>
-              <p className="text-lg sm:text-xl lg:text-xl text-gray-700 leading-relaxed mb-8 lg:mb-12">
-                Hi viewer, I&apos;m Ari and welcome to my study room! Here you&apos;ll find notes from my technical interview preparation journey and tips and tricks that I discovered along the way. Feel free to grab a cozy cup of coffee and have a look around. Happy studying! ☕️🍀
-              </p>
+        <div className="max-w-5xl mx-auto px-6 py-16 sm:py-20 lg:py-28 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
 
-              {/* Floating Cozy Elements */}
-              <div className="flex items-center justify-center lg:justify-start space-x-4 sm:space-x-6 lg:space-x-8 text-2xl sm:text-3xl lg:text-4xl">
-                <span className="hover:scale-125 transition-transform duration-300 animate-bounce" style={{ animationDelay: '0s', animationDuration: '2s' }}>📚</span>
-                <span className="hover:scale-125 transition-transform duration-300 animate-bounce" style={{ animationDelay: '0.3s', animationDuration: '2.3s' }}>☕️</span>
-                <span className="hover:scale-125 transition-transform duration-300 animate-bounce" style={{ animationDelay: '0.6s', animationDuration: '2.6s' }}>🌱</span>
-                <span className="hover:scale-125 transition-transform duration-300 animate-bounce" style={{ animationDelay: '0.9s', animationDuration: '2.9s' }}>🐼</span>
-                <span className="hover:scale-125 transition-transform duration-300 animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '2.2s' }}>💻</span>
-                <span className="hover:scale-125 transition-transform duration-300 animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.5s' }}>✨</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Logo Section - Right Side */}
-          <div className="flex-1 flex justify-center items-center">
-            <div className="text-center">
-              <div className="relative inline-block mb-4 lg:mb-6">
-                <div className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-gradient-to-br from-lavender-400 via-pink-400 to-orange-400 rounded-3xl shadow-cozy hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:rotate-6">
-                  <BookOpen className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-white drop-shadow-lg" />
-                </div>
-                <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full flex items-center justify-center shadow-lg animate-pulse">
-                  <span className="text-sm sm:text-base lg:text-lg font-bold text-white">✨</span>
-                </div>
-                <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-pink-300 to-purple-400 rounded-full flex items-center justify-center shadow-lg animate-pulse" style={{ animationDelay: '0.5s' }}>
-                  <span className="text-xs sm:text-sm font-bold text-white">💫</span>
-                </div>
-                <div className="absolute -top-1 -left-1 sm:-top-2 sm:-left-2 w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 bg-gradient-to-br from-blue-300 to-cyan-400 rounded-full flex items-center justify-center shadow-md animate-pulse" style={{ animationDelay: '1s' }}>
-                  <span className="text-xs font-bold text-white">🌟</span>
-                </div>
-                <div className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 bg-gradient-to-br from-green-300 to-emerald-400 rounded-full flex items-center justify-center shadow-md animate-pulse" style={{ animationDelay: '1.5s' }}>
-                  <span className="text-xs font-bold text-white">🎨</span>
-                </div>
+            {/* Left: Main content */}
+            <div className="flex-1 text-center lg:text-left">
+              {/* Badge */}
+              <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm border border-lavender-200 rounded-full px-4 py-2 mb-6">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span className="text-sm text-warmGray-600 font-medium">Open for learning</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-warmGray-800 via-lavender-600 to-pink-500 bg-clip-text text-transparent mb-2 lg:mb-4">
-                Ari&apos;s Study Room
+              {/* Title */}
+              <h1 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-warmGray-900 mb-4 leading-tight">
+                Welcome to<br />
+                <span className="text-lavender-600">Ari&apos;s Study Room</span>
               </h1>
-              <p className="text-lg sm:text-xl text-warmGray-600 font-medium">
-                CS Notes & Interview Prep
-              </p>
-            </div>
-          </div>
-        </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-          <div className="flex flex-col items-center space-y-1 sm:space-y-2">
-            <span className="text-xs sm:text-sm text-gray-600 font-medium">Scroll to explore</span>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 animate-bounce">
-              <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+              {/* Subtitle */}
+              <p className="text-lg text-warmGray-600 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
+                A collection of computer science notes, algorithm explanations, and interview preparation materials.
+                Grab a cup of coffee and explore at your own pace.
+              </p>
+
+              {/* Topic pills */}
+              <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-8">
+                <span className="px-3 py-1.5 bg-lavender-100 text-lavender-700 rounded-lg text-sm font-medium">Algorithms</span>
+                <span className="px-3 py-1.5 bg-pink-100 text-pink-700 rounded-lg text-sm font-medium">Data Structures</span>
+                <span className="px-3 py-1.5 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium">System Design</span>
+                <span className="px-3 py-1.5 bg-green-100 text-green-700 rounded-lg text-sm font-medium">Interview Tips</span>
+              </div>
+
+              {/* Scroll indicator */}
+              <div className="flex items-center space-x-2 text-warmGray-500 justify-center lg:justify-start">
+                <ChevronDown className="w-4 h-4" />
+                <span className="text-sm font-medium">Scroll to explore topics</span>
+              </div>
+            </div>
+
+            {/* Right: Visual element */}
+            <div className="flex-shrink-0">
+              <div className="relative">
+                {/* Main card */}
+                <div className="w-64 sm:w-72 bg-white rounded-2xl shadow-xl border border-lavender-100 p-6">
+                  {/* Icon header */}
+                  <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-lavender-500 to-pink-500 rounded-xl mb-4 mx-auto">
+                    <BookOpen className="w-7 h-7 text-white" />
+                  </div>
+
+                  {/* Card content */}
+                  <div className="text-center mb-4">
+                    <h3 className="font-semibold text-warmGray-800 mb-1">CS Notes & Prep</h3>
+                    <p className="text-sm text-warmGray-500">Interview preparation</p>
+                  </div>
+
+                  {/* Mini stats */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-lavender-50 rounded-lg p-3 text-center">
+                      <div className="text-lg font-bold text-lavender-600">📚</div>
+                      <div className="text-xs text-warmGray-600 mt-1">Notes</div>
+                    </div>
+                    <div className="bg-pink-50 rounded-lg p-3 text-center">
+                      <div className="text-lg font-bold text-pink-600">💡</div>
+                      <div className="text-xs text-warmGray-600 mt-1">Tips</div>
+                    </div>
+                    <div className="bg-orange-50 rounded-lg p-3 text-center">
+                      <div className="text-lg font-bold text-orange-600">🎯</div>
+                      <div className="text-xs text-warmGray-600 mt-1">Practice</div>
+                    </div>
+                    <div className="bg-green-50 rounded-lg p-3 text-center">
+                      <div className="text-lg font-bold text-green-600">☕</div>
+                      <div className="text-xs text-warmGray-600 mt-1">Cozy</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating accent cards */}
+                <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-yellow-200 to-orange-200 rounded-xl opacity-80 -z-10 rotate-12"></div>
+                <div className="absolute -bottom-3 -left-3 w-16 h-16 bg-gradient-to-br from-lavender-200 to-purple-200 rounded-xl opacity-80 -z-10 -rotate-6"></div>
+              </div>
             </div>
           </div>
         </div>
