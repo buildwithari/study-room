@@ -268,6 +268,33 @@ colors: {
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 📋 Update Log
+
+### January 2026
+
+**Authentication & Security Fixes**
+- Fixed admin route protection - `/admin` was accessible without authentication due to middleware matcher not covering the base route
+- Updated middleware to use `getToken` from `next-auth/jwt` with proper secure cookie name (`__Secure-next-auth.session-token`)
+- Fixed logout redirect issue caused by `NEXTAUTH_URL` in `.env.local` pointing to Vercel instead of localhost
+
+**Admin Dashboard**
+- Added logout button to admin dashboard header
+
+**UI/UX Improvements**
+- Redesigned landing page banner with cleaner, more academic aesthetic
+  - Replaced animated blobs and bouncing emojis with subtle background elements
+  - Added visual card component with topic pills
+  - Two-column layout with welcome text and decorative card
+- Simplified navbar design
+  - Logo and name aligned to the left
+  - Removed subtitle text
+  - Clean gradient background with subtle border
+
+**Code Cleanup**
+- Removed debug console.log statements from auth configuration and middleware
+
+---
+
 ## 👩‍💻 About
 
 **Ari's Study Room** is a personal study blog created by Arundhati for organizing Computer Science notes and technical interview preparation materials. The goal is to create a warm, inviting space that makes studying feel cozy rather than corporate.
