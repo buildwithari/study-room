@@ -293,6 +293,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Code Cleanup**
 - Removed debug console.log statements from auth configuration and middleware
 
+**Caching & Data Refresh Fixes**
+- Fixed category/article deletion not refreshing the page - replaced `router.refresh()` with `window.location.reload()` for reliable cache clearing
+- Added `export const dynamic = 'force-dynamic'` to admin pages and landing page to prevent Next.js 15 aggressive caching
+
+**Block Editor Improvements**
+- Implemented drag-and-drop reordering for content blocks using native HTML5 Drag and Drop API
+- Added visual feedback during drag operations (opacity change, highlighted drop target)
+- Up/down arrow buttons retained as fallback option
+
+**Article Editor UX**
+- Changed save behavior: editing existing articles now stays on page with success message instead of redirecting to dashboard
+- New articles redirect to their edit page after creation for continued editing
+- Added auto-dismissing success notification (3 seconds)
+
 ---
 
 ## 👩‍💻 About

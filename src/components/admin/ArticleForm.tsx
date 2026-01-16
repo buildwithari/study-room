@@ -35,6 +35,7 @@ export default function ArticleForm({ article, categories }: ArticleFormProps) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Form state
   const [title, setTitle] = useState(article?.title || '');
@@ -66,6 +67,7 @@ export default function ArticleForm({ article, categories }: ArticleFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSaveSuccess(false);
     setIsSaving(true);
 
     try {
@@ -96,8 +98,17 @@ export default function ArticleForm({ article, categories }: ArticleFormProps) {
         throw new Error(data.error || 'Failed to save article');
       }
 
-      router.push('/admin');
-      router.refresh();
+      const data = await response.json();
+
+      if (article) {
+        // Editing existing article - stay on page and show success
+        setSaveSuccess(true);
+        // Auto-hide success message after 3 seconds
+        setTimeout(() => setSaveSuccess(false), 3000);
+      } else {
+        // Creating new article - redirect to edit page
+        router.push(`/admin/articles/${data.id}/edit`);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save article');
     } finally {
@@ -157,6 +168,19 @@ export default function ArticleForm({ article, categories }: ArticleFormProps) {
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
           {error}
+        </div>
+      )}
+
+      {saveSuccess && (
+        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl flex items-center justify-between">
+          <span>Article saved successfully!</span>
+          <button
+            type="button"
+            onClick={() => setSaveSuccess(false)}
+            className="text-green-600 hover:text-green-800"
+          >
+            ×
+          </button>
         </div>
       )}
 
