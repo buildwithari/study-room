@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { Plus, Edit, FolderTree, ChevronRight } from 'lucide-react';

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Trash2, Loader2 } from 'lucide-react';
 
 interface DeleteCategoryButtonProps {
@@ -10,7 +9,6 @@ interface DeleteCategoryButtonProps {
 }
 
 export default function DeleteCategoryButton({ categoryId, categoryName }: DeleteCategoryButtonProps) {
-  const router = useRouter();
   const [deleting, setDeleting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState('');
@@ -30,7 +28,8 @@ export default function DeleteCategoryButton({ categoryId, categoryName }: Delet
         throw new Error(data.error || 'Failed to delete category');
       }
 
-      router.refresh();
+      // Force a hard refresh to clear cache
+      window.location.reload();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
       setDeleting(false);

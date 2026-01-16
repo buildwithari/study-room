@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Trash2 } from 'lucide-react';
 
 interface DeleteArticleButtonProps {
@@ -10,7 +9,6 @@ interface DeleteArticleButtonProps {
 }
 
 export default function DeleteArticleButton({ articleId, articleTitle }: DeleteArticleButtonProps) {
-  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -22,14 +20,16 @@ export default function DeleteArticleButton({ articleId, articleTitle }: DeleteA
       });
 
       if (response.ok) {
-        router.refresh();
+        // Force a hard refresh to clear cache
+        window.location.reload();
       } else {
         const data = await response.json();
         alert(data.error || 'Failed to delete article');
+        setIsDeleting(false);
+        setShowConfirm(false);
       }
     } catch {
       alert('Failed to delete article');
-    } finally {
       setIsDeleting(false);
       setShowConfirm(false);
     }
