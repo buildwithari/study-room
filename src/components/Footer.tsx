@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Social Media Icons */}
           <div className="flex justify-center items-center space-x-4 mb-4">
             <Link 
-              href="https://github.com/arundhati-work" 
+              href="https://github.com/buildwithari" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gray-700 transition-colors duration-200 hover:scale-110 relative group"
@@ -21,7 +21,7 @@ export default function Footer() {
               </span>
             </Link>
             <Link 
-              href="https://aridev-eight.vercel.app/" 
+              href="https://buildwithari.vercel.app/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gray-700 transition-colors duration-200 hover:scale-110 relative group"
@@ -45,10 +45,6 @@ export default function Footer() {
               </span>
             </Link>
           </div>
-          
-          <p className="text-gray-600 text-sm sm:text-base">
-            Built with 💕 by Arundhati Bandopadhyaya with Next.js and Tailwind CSS.
-          </p>
         </div>
       </div>
     </footer>
