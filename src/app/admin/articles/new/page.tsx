@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import ArticleForm from '@/components/admin/ArticleForm';
 
+export const dynamic = 'force-dynamic';
+
 async function getCategories() {
   const categories = await prisma.category.findMany({
     orderBy: { order: 'asc' },

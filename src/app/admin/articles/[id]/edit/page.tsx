@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import ArticleForm from '@/components/admin/ArticleForm';
 import { Block } from '@/types/blocks';
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }
