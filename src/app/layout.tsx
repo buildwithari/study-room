@@ -26,7 +26,7 @@ export default function RootLayout({
         <Providers>
           <div className="min-h-screen bg-white flex flex-col">
             <HeaderWrapper />
-            <main className="flex-1">
+            <main className="flex-1 relative z-10">
               {children}
             </main>
             <Footer />

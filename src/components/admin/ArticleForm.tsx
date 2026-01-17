@@ -244,7 +244,7 @@ export default function ArticleForm({ article, categories }: ArticleFormProps) {
         </div>
 
         {/* Right Column - Metadata */}
-        <div className="space-y-6">
+        <div className="space-y-6 relative z-10">
           {/* Status */}
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-lavender-200">
             <h2 className="text-lg font-semibold text-warmGray-800 mb-4">Status</h2>

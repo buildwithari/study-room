@@ -316,6 +316,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Block Editor Improvements**
 - Examples block explanation field now supports rich text (HTML: `<code>`, `<strong>`, `<em>`)
 
+**Bug Fixes**
+- Fixed footer overlapping dropdown menus by adding proper z-index stacking context to layout
+
 ---
 
 ## 👩‍💻 About
