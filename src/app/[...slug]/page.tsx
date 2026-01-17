@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/prisma';
+import { authOptions } from '@/lib/auth';
 import Breadcrumb from '@/components/Breadcrumb';
 import BlockRenderer from '@/components/blocks/BlockRenderer';
 import { Block } from '@/types/blocks';
@@ -9,6 +11,7 @@ import { LucideIcon, ChevronRight } from 'lucide-react';
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
+  searchParams: Promise<{ preview?: string }>;
 }
 
 // Get icon component by name
@@ -252,8 +255,9 @@ function CategoryPageContent({
   );
 }
 
-export default async function DynamicPage({ params }: PageProps) {
+export default async function DynamicPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const { preview } = await searchParams;
 
   // First, try to find a category matching this slug
   const category = await findCategory(slug);
@@ -296,9 +300,24 @@ export default async function DynamicPage({ params }: PageProps) {
     },
   });
 
-  // If no article found or it's a draft, show 404
-  if (!article || article.status === 'draft') {
+  // Check if preview mode is requested
+  const isPreviewMode = preview === 'true';
+
+  // If no article found, show 404
+  if (!article) {
     notFound();
+  }
+
+  // If it's a draft, only allow viewing in preview mode with authenticated user
+  if (article.status === 'draft') {
+    if (!isPreviewMode) {
+      notFound();
+    }
+    // Verify user is authenticated for preview mode
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      notFound();
+    }
   }
 
   // Build breadcrumb items from category hierarchy

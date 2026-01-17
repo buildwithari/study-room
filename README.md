@@ -306,6 +306,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Changed save behavior: editing existing articles now stays on page with success message instead of redirecting to dashboard
 - New articles redirect to their edit page after creation for continued editing
 - Added auto-dismissing success notification (3 seconds)
+- Added preview mode for draft articles - Preview button now works for unpublished content with `?preview=true` query param (requires authentication)
+
+**Styling**
+- Added Notion-like inline code styling with pink color scheme, rounded borders, and subtle border
 
 ---
 

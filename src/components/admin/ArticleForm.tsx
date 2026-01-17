@@ -125,8 +125,8 @@ export default function ArticleForm({ article, categories }: ArticleFormProps) {
         : category.slug;
       const categorySlug = category.parentId ? category.slug : '';
       const previewUrl = categorySlug
-        ? `/${parentSlug}/${categorySlug}/${slug}`
-        : `/${parentSlug}/${slug}`;
+        ? `/${parentSlug}/${categorySlug}/${slug}?preview=true`
+        : `/${parentSlug}/${slug}?preview=true`;
       window.open(previewUrl, '_blank');
     }
   };
