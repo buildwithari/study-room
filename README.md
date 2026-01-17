@@ -310,6 +310,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Styling**
 - Added Notion-like inline code styling with pink color scheme, rounded borders, and subtle border
+- Articles now use root category's icon (parent category icon for subcategory articles)
+- Fixed article icon not displaying by using inline styles for gradient instead of dynamic Tailwind classes
 
 ---
 

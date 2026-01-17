@@ -21,6 +21,24 @@ function getIconComponent(iconName: string): LucideIcon {
   return icons[iconName] || LucideIcons.FileText;
 }
 
+// Map iconColor class to gradient colors for inline styles
+function getGradientColors(iconColor: string): { from: string; to: string } {
+  const colorMap: Record<string, { from: string; to: string }> = {
+    'text-green-600': { from: '#4ade80', to: '#22c55e' },
+    'text-blue-600': { from: '#60a5fa', to: '#3b82f6' },
+    'text-purple-600': { from: '#c084fc', to: '#a855f7' },
+    'text-pink-600': { from: '#f472b6', to: '#ec4899' },
+    'text-yellow-600': { from: '#facc15', to: '#eab308' },
+    'text-orange-600': { from: '#fb923c', to: '#f97316' },
+    'text-red-600': { from: '#f87171', to: '#ef4444' },
+    'text-cyan-600': { from: '#22d3ee', to: '#06b6d4' },
+    'text-teal-600': { from: '#2dd4bf', to: '#14b8a6' },
+    'text-indigo-600': { from: '#818cf8', to: '#6366f1' },
+    'text-lavender-600': { from: '#c084fc', to: '#a855f7' },
+  };
+  return colorMap[iconColor] || { from: '#c084fc', to: '#a855f7' }; // Default to lavender
+}
+
 // Format date for display
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat('en-US', {
@@ -341,11 +359,12 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
 
   breadcrumbItems.push({ label: article.title });
 
-  // Get the icon component
-  const IconComponent = getIconComponent(article.category.icon);
-  const iconColorClass = article.category.iconColor.replace('text-', '');
-  const gradientFrom = `from-${iconColorClass.replace('-600', '-400')}`;
-  const gradientTo = `to-${iconColorClass.replace('-600', '-500')}`;
+  // Get the icon component - use root category's icon (parent if exists, otherwise current category)
+  const rootCategory = article.category.parent || article.category;
+  const iconName = rootCategory.icon || article.category.icon || 'FileText';
+  const iconColor = rootCategory.iconColor || article.category.iconColor || 'text-lavender-600';
+  const IconComponent = getIconComponent(iconName);
+  const gradientColors = getGradientColors(iconColor);
 
   // Parse blocks from JSON - properly type cast the Prisma JsonValue
   const blocks: Block[] = Array.isArray(article.blocks) 
@@ -359,7 +378,10 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-4">
-          <div className={`w-12 h-12 bg-gradient-to-br ${gradientFrom} ${gradientTo} rounded-xl flex items-center justify-center text-white shadow-cozy`}>
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-cozy"
+            style={{ background: `linear-gradient(to bottom right, ${gradientColors.from}, ${gradientColors.to})` }}
+          >
             <IconComponent className="w-6 h-6" />
           </div>
           <div>
