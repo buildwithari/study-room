@@ -26,7 +26,8 @@ export default function ExamplesBlock({ block }: Props) {
               </p>
               {example.explanation && (
                 <p>
-                  <strong>Explanation:</strong> {example.explanation}
+                  <strong>Explanation:</strong>{' '}
+                  <span dangerouslySetInnerHTML={{ __html: example.explanation }} />
                 </p>
               )}
             </div>

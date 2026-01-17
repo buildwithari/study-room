@@ -313,6 +313,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Articles now use root category's icon (parent category icon for subcategory articles)
 - Fixed article icon not displaying by using inline styles for gradient instead of dynamic Tailwind classes
 
+**Block Editor Improvements**
+- Examples block explanation field now supports rich text (HTML: `<code>`, `<strong>`, `<em>`)
+
 ---
 
 ## 👩‍💻 About

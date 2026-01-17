@@ -71,12 +71,14 @@ export default function ExamplesEditor({ block, onChange }: Props) {
           </div>
           <div>
             <label className="block text-xs font-medium text-warmGray-600 mb-1">Explanation (optional)</label>
-            <input
-              type="text"
+            <p className="text-xs text-warmGray-500 mb-1">
+              Use HTML: &lt;code&gt;inline code&lt;/code&gt;, &lt;strong&gt;bold&lt;/strong&gt;, &lt;em&gt;italic&lt;/em&gt;
+            </p>
+            <textarea
               value={example.explanation || ''}
               onChange={(e) => updateExample(index, { explanation: e.target.value })}
-              className="w-full px-3 py-2 border border-lavender-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-lavender-400 text-sm"
-              placeholder="Because nums[0] + nums[1] == 9..."
+              className="w-full h-20 px-3 py-2 border border-lavender-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-lavender-400 text-sm"
+              placeholder="Because <code>nums[0]</code> + <code>nums[1]</code> == 9..."
             />
           </div>
         </div>
